@@ -150,7 +150,7 @@ namespace WinForm_CSharp_hw3
                 Worker oldWorker = workers[0];
                 int young = workers[0].Birthday.Year;
                 int old = workers[0].Birthday.Year;
-            for (int i = 0; i < workers.Count; i++)
+                for (int i = 0; i < workers.Count; i++)
                 {
                     if (old > workers[i].Birthday.Year)
                     {
@@ -181,17 +181,31 @@ namespace WinForm_CSharp_hw3
                     years[i] = workers[i].Birthday.Year;
                 }
                 Array.Sort(years);
-                int max = 0, max1 = 0, num = years[0];
+                int max = 0, max1 = 0, num = years[0], nummax = years[0];
                 for (int i = 0; i < years.Length; i++)
                 {
-                    if (num != years[i])
+                    if (num != years[i] || i == years.Length - 1)
                     {
-                        num = years[i];
-                        max = max1;
+                        if (i == years.Length - 1) { max1++; }
+                        if (max < max1)
+                        {
+                            max = max1;
+                            nummax = num;
+                        }
                         max1 = 0;
+                        num = years[i];
                     }
                     max1++;
                 }
+                string message = $"In {nummax}, {max} employees were born\n";
+                for (int i = 0; i < workers.Count; i++)
+                {
+                    if (workers[i].Birthday.Year == nummax)
+                    {
+                        message += '\n' + workers[i].Surname;
+                    }
+                }
+                MessageBox.Show(message);
             }
             else
             {
